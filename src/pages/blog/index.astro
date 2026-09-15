@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = [
+  {
+    href: '/blog/cloud-native-africa-tech-tour-nairobi-kenya/',
+    category: 'Event Recap',
+    title: 'Cloud Native Africa Tech Tour: Nairobi, Kenya',
+    excerpt:
+      'The first stop of the Tech Tour: two weeks of community days, bootcamps, and meetups with technologists in Nairobi, Kenya.',
+    date: 'June 11, 2025',
+    dateISO: '2025-06-11',
+  },
+  {
+    href: '/blog/the-largest-cloud-native-community-in-africa/',
+    category: 'Community Story',
+    title: 'The Largest Cloud Native Community in Africa',
+    excerpt:
+      'CNCF Lagos is currently the largest Cloud Native Community in Africa. Ileriayo Adebiyi shares how passion, collaboration, and courage grew it from a quiet 40-member group to a thriving community.',
+    date: 'February 26, 2025',
+    dateISO: '2025-02-26',
+  },
+  {
+    href: '/blog/cloud-native-africa-tech-tour/',
+    category: 'Initiative',
+    title: 'Cloud Native Africa Tech Tour: Build for Africa, Explore Africa',
+    excerpt:
+      'An invitation to tour the continent, collaborate with local innovators, and build cloud-native solutions while experiencing Africa\u2019s cultures and communities.',
+    date: 'February 25, 2025',
+    dateISO: '2025-02-25',
+  },
+  {
+    href: '/blog/cncf-abuja-meetup-cloud-native-unplugged/',
+    category: 'Event Recap',
+    title: 'CNCF Abuja Meetup: Cloud-Native Unplugged',
+    excerpt:
+      'Cloud Native Abuja, one of Africa\u2019s Cloud Native Community Groups, kicked off its year with a virtual meetup themed Cloud-Native Unplugged.',
+    date: 'January 23, 2025',
+    dateISO: '2025-01-23',
+  },
+  {
+    href: '/blog/cncf-and-andela-partnership/',
+    category: 'Partnership',
+    title: 'CNCF and Andela Announce Partnership to Train African Tech Professionals',
+    excerpt:
+      'CNCF, Linux Foundation Education, and Andela partnered to train African technologists in Kubernetes and cloud-native fundamentals.',
+    date: 'January 3, 2025',
+    dateISO: '2025-01-03',
+  },
+];
+---
+
+<BaseLayout
+  title="Blog · Cloud Native Africa"
+  description="Stories, events, and updates from the Cloud Native community across Africa."
+>
+  <section class="section blog-hero">
+    <div class="container">
+      <p class="section-kicker">Blog</p>
+      <h1>Stories and updates from the community.</h1>
+      <p class="hero-text">
+        A record of what Cloud Native Africa and its community groups have been
+        building, teaching, and celebrating across the continent.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="container">
+      <div class="post-grid">
+        {posts.map((post) => (
+          <a class="post-card" href={post.href}>
+            <div class="post-card-meta">
+              <span class="post-card-category">{post.category}</span>
+              <time datetime={post.dateISO}>{post.date}</time>
+            </div>
+            <h2>{post.title}</h2>
+            <p>{post.excerpt}</p>
+            <span class="post-card-link">Read more &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

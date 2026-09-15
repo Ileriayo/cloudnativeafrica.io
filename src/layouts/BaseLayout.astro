@@ -1,0 +1,140 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const email = 'info@cloudnativeafrica.io';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07111f" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('cna-theme');
+        } catch (e) {}
+        var theme =
+          stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" aria-label="Primary">
+      <nav class="nav container">
+        <a class="brand" href="/" aria-label="Cloud Native Africa home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img">
+              <path
+                d="M14.8 30.1c-3.7 0-6.7-2.8-6.7-6.2 0-3.3 2.6-5.9 6-6.2 1.4-3.8 4.9-6.4 9.1-6.4 5.2 0 9.4 4 9.8 9.1 3.5.5 6.1 3.4 6.1 6.9 0 3.8-3.2 6.9-7.2 6.9H15.9c-.6 0-1.1-.5-1.1-1.1v-3Z"
+              ></path>
+            </svg>
+          </span>
+          <span>Cloud Native Africa</span>
+        </a>
+        <div class="nav-links" aria-label="Page sections">
+          <a href="/#purpose">Purpose</a>
+          <a href="/blog/">Blog</a>
+          <a href={`mailto:${email}`}>Contact</a>
+          <button
+            type="button"
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle light and dark theme"
+          >
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6" />
+              <path
+                d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M20 14.2A8.5 8.5 0 1 1 9.8 4a6.8 6.8 0 0 0 10.2 10.2Z"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <section class="newsletter-section" aria-labelledby="newsletter-heading">
+      <div class="container newsletter-card">
+        <div>
+          <p class="section-kicker">Stay in the loop</p>
+          <h2 id="newsletter-heading">Subscribe to the newsletter</h2>
+          <p>
+            Get occasional updates on Cloud Native community groups, events, and
+            stories from across Africa.
+          </p>
+        </div>
+        <form
+          class="newsletter-form"
+          action={`mailto:${email}`}
+          method="get"
+          aria-label="Newsletter subscription"
+        >
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input
+            id="newsletter-email"
+            name="body"
+            type="email"
+            placeholder="you@example.com"
+            required
+          />
+          <button type="submit" class="button button-primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>Cloud Native Africa</p>
+        <p>Championing Cloud Native adoption, development, and growth in Africa.</p>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var button = document.getElementById('theme-toggle');
+        if (!button) return;
+        button.addEventListener('click', function () {
+          var root = document.documentElement;
+          var current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+          var next = current === 'light' ? 'dark' : 'light';
+          root.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('cna-theme', next);
+          } catch (e) {}
+        });
+      })();
+    </script>
+  </body>
+</html>
