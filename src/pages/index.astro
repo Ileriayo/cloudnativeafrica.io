@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const email = 'info@cloudnativeafrica.io';
+const originalEmail = 'info[at]cloudnativeafrica.io';
+
+const featuredPosts = [
+  {
+    href: '/blog/the-largest-cloud-native-community-in-africa/',
+    category: 'Community Story',
+    title: 'The Largest Cloud Native Community in Africa',
+    excerpt:
+      'CNCF Lagos is currently the largest Cloud Native Community in Africa. Here\u2019s how passion, collaboration, and courage grew it.',
+    date: 'February 26, 2025',
+    dateISO: '2025-02-26',
+  },
+  {
+    href: '/blog/cloud-native-africa-tech-tour-nairobi-kenya/',
+    category: 'Event Recap',
+    title: 'Cloud Native Africa Tech Tour: Nairobi, Kenya',
+    excerpt:
+      'Community days, bootcamps, and meetups with technologists across two weeks in Nairobi.',
+    date: 'June 11, 2025',
+    dateISO: '2025-06-11',
+  },
+  {
+    href: '/blog/cncf-and-andela-partnership/',
+    category: 'Partnership',
+    title: 'CNCF and Andela Announce Partnership',
+    excerpt:
+      'Training African technologists in Kubernetes and cloud-native fundamentals, at no cost to participants.',
+    date: 'January 3, 2025',
+    dateISO: '2025-01-03',
+  },
+];
+---
+
+<BaseLayout
+  title="Welcome to Cloudnativeafrica.io"
+  description="Cloud Native Africa champions the adoption, development, and growth of Cloud Native across Africa."
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Welcome to Cloudnativeafrica.io</p>
+        <h1>Growing Cloud Native knowledge, leadership, and contribution across Africa.</h1>
+        <p class="hero-text">
+          The Cloud Native landscape in Africa is nascent and very little is known
+          about what happens in it. Africa's contribution to the Cloud Native
+          Computing industry needs to be told.
+        </p>
+        <div class="actions" aria-label="Primary actions">
+          <a class="button button-primary" href={`mailto:${email}`}>Send us an email</a>
+          <a class="button button-secondary" href="#purpose">Learn more</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Cloud Native Africa mission summary">
+        <div class="orbital" aria-hidden="true">
+          <span class="orbit orbit-one"></span>
+          <span class="orbit orbit-two"></span>
+          <span class="node node-one"></span>
+          <span class="node node-two"></span>
+          <span class="node node-three"></span>
+          <span class="cloud-shape"></span>
+        </div>
+        <p>
+          "Cloudnativeafrica.io will champion the adoption, development, and
+          growth of Cloud Native, in Africa."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="purpose" aria-labelledby="purpose-heading">
+    <div class="container split">
+      <div>
+        <p class="section-kicker">Why this matters</p>
+        <h2 id="purpose-heading">A story worth telling clearly.</h2>
+      </div>
+      <div class="body-copy">
+        <p>
+          Africa's Cloud Native community will grow and get bigger as we educate
+          our compatriots, and more leaders will arise.
+        </p>
+        <p>
+          This site exists to help champion Cloud Native adoption, development,
+          and growth in Africa while inviting people to contribute to that work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-muted" id="community" aria-labelledby="community-heading">
+    <div class="container">
+      <div class="section-heading">
+        <p class="section-kicker">Community focus</p>
+        <h2 id="community-heading">Join us. Contribute. Grow Cloud Native in Africa.</h2>
+      </div>
+
+      <div class="principles" role="list">
+        <article class="principle-card" role="listitem">
+          <span class="card-index">01</span>
+          <h3>Educate</h3>
+          <p>
+            Share knowledge so more people can understand, use, and shape Cloud
+            Native technologies.
+          </p>
+        </article>
+        <article class="principle-card" role="listitem">
+          <span class="card-index">02</span>
+          <h3>Contribute</h3>
+          <p>
+            Make Africa's contribution to the Cloud Native Computing industry
+            visible and easier to participate in.
+          </p>
+        </article>
+        <article class="principle-card" role="listitem">
+          <span class="card-index">03</span>
+          <h3>Lead</h3>
+          <p>
+            Support the conditions for more leaders to arise as the community
+            grows across the continent.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="blog" aria-labelledby="blog-heading">
+    <div class="container">
+      <div class="section-heading blog-teaser-heading">
+        <div>
+          <p class="section-kicker">From the blog</p>
+          <h2 id="blog-heading">Stories and updates from the community.</h2>
+        </div>
+        <a class="button button-secondary" href="/blog/">View all posts</a>
+      </div>
+
+      <div class="post-grid">
+        {featuredPosts.map((post) => (
+          <a class="post-card" href={post.href}>
+            <div class="post-card-meta">
+              <span class="post-card-category">{post.category}</span>
+              <time datetime={post.dateISO}>{post.date}</time>
+            </div>
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+            <span class="post-card-link">Read more &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+    <div class="container contact-card">
+      <div>
+        <p class="section-kicker">Get involved</p>
+        <h2 id="contact-heading">Ready to contribute?</h2>
+        <p>
+          Send us an email and let's grow Cloud Native in Africa.
+        </p>
+      </div>
+      <a class="email-link" href={`mailto:${email}`} aria-label={`Email Cloud Native Africa at ${email}`}>
+        <span>Contact email</span>
+        <strong>{originalEmail}</strong>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
