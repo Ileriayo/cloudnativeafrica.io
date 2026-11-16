@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JobMeta from '../../components/JobMeta.astro';
+import { formatDate } from '../../config/jobs';
+
+const jobs = (await getCollection('jobs', ({ data }) => !data.draft && data.status === 'open'))
+  .sort((a, b) => b.data.posted.valueOf() - a.data.posted.valueOf());
+
+const workplaces = ['Remote', 'On-site', 'Hybrid'].filter((w) =>
+  jobs.some((job) => job.data.workplace === w),
+);
+---
+
+<BaseLayout
+  title="Jobs · Cloud Native Africa"
+  description="Cloud native jobs for technologists across Africa: remote, hybrid, and on-site roles with clear pay ranges."
+>
+  <section class="section blog-hero">
+    <div class="container">
+      <p class="section-kicker">Jobs</p>
+      <h1>Cloud native roles</h1>
+      <p class="hero-text">
+        Open positions shared with the community, each with a pay range and
+        location. Pick a role to read the details and apply.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="container">
+      {
+        jobs.length === 0 ? (
+          <div class="jobs-empty">
+            <h2>No open roles right now.</h2>
+            <p>
+              New jobs are announced in the newsletter. Subscribe below to hear
+              about them first.
+            </p>
+          </div>
+        ) : (
+          <>
+            {workplaces.length > 1 && (
+              <div class="job-filters" role="group" aria-label="Filter jobs by workplace">
+                <button type="button" class="job-filter" data-filter="all" aria-pressed="true">
+                  All
+                </button>
+                {workplaces.map((w) => (
+                  <button type="button" class="job-filter" data-filter={w} aria-pressed="false">
+                    {w}
+                  </button>
+                ))}
+              </div>
+            )}
+            <ul class="job-list">
+              {jobs.map((job) => (
+                <li class="job-card" data-workplace={job.data.workplace}>
+                  <div class="job-card-head">
+                    <div>
+                      <h2>
+                        <a href={`/jobs/${job.id}/`}>{job.data.title}</a>
+                      </h2>
+                      <p class="job-company">{job.data.company}</p>
+                    </div>
+                    <time class="job-posted" datetime={job.data.posted.toISOString()}>
+                      Posted {formatDate(job.data.posted)}
+                    </time>
+                  </div>
+                  <p class="job-summary">{job.data.summary}</p>
+                  <JobMeta
+                    workplace={job.data.workplace}
+                    employmentType={job.data.employmentType}
+                    location={job.data.location}
+                    payRange={job.data.payRange}
+                    tags={job.data.tags}
+                  />
+                  <span class="post-card-link" aria-hidden="true">
+                    View role &amp; apply &rarr;
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+    </div>
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.job-filter');
+    const cards = document.querySelectorAll<HTMLElement>('.job-card');
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        cards.forEach((card) => {
+          card.hidden = filter !== 'all' && card.dataset.workplace !== filter;
+        });
+      });
+    });
+  </script>
+</BaseLayout>

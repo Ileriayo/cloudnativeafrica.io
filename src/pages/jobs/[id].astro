@@ -1,0 +1,87 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import JobMeta from '../../components/JobMeta.astro';
+import {
+  buildFormEmbedUrl,
+  buildFormOpenUrl,
+  formatDate,
+  jobApplicationForm,
+} from '../../config/jobs';
+
+export async function getStaticPaths() {
+  const jobs = await getCollection('jobs', ({ data }) => !data.draft);
+  return jobs.map((job) => ({ params: { id: job.id }, props: { job } }));
+}
+
+const { job } = Astro.props;
+const { Content } = await render(job);
+const { data } = job;
+
+const isOpen = data.status === 'open';
+const formBase = data.applicationForm || jobApplicationForm.formUrl;
+const embedUrl = formBase ? buildFormEmbedUrl(formBase, `${data.title} – ${data.company}`) : '';
+const openUrl = embedUrl ? buildFormOpenUrl(embedUrl) : '';
+---
+
+<BaseLayout title={`${data.title} at ${data.company} · Jobs · Cloud Native Africa`} description={data.summary}>
+  <article class="post">
+    <div class="container post-container">
+      <a class="back-link" href="/jobs/">&larr; All jobs</a>
+      <p class="section-kicker">
+        {data.companyUrl ? <a class="job-company-link" href={data.companyUrl} rel="noopener" target="_blank">{data.company}</a> : data.company}
+      </p>
+      <h1 class="post-title">{data.title}</h1>
+      <p class="post-meta">
+        Posted <time datetime={data.posted.toISOString()}>{formatDate(data.posted)}</time>
+        {data.closes && isOpen && (
+          <> · Applications close <time datetime={data.closes.toISOString()}>{formatDate(data.closes)}</time></>
+        )}
+      </p>
+      <JobMeta
+        workplace={data.workplace}
+        employmentType={data.employmentType}
+        location={data.location}
+        payRange={data.payRange}
+        tags={data.tags}
+      />
+
+      {isOpen && (
+        <p class="job-apply-jump">
+          <a class="button button-primary" href="#apply">Apply for this role</a>
+        </p>
+      )}
+
+      <div class="prose job-description">
+        <Content />
+      </div>
+
+      <section id="apply" class="job-apply" aria-labelledby="apply-heading">
+        <h2 id="apply-heading">Apply</h2>
+        {!isOpen ? (
+          <p class="job-apply-note">This role is no longer accepting applications.</p>
+        ) : embedUrl ? (
+          <>
+            <p class="job-apply-note">
+              Fill in the form below with your details, a link to your CV, and
+              your social profiles. If the form doesn't load,{' '}
+              <a href={openUrl} target="_blank" rel="noopener">open it in a new tab</a>.
+            </p>
+            <div class="job-form-frame">
+              <iframe
+                src={embedUrl}
+                title={`Application form for ${data.title}`}
+                height={jobApplicationForm.height}
+                loading="lazy"
+              >
+                Loading…
+              </iframe>
+            </div>
+          </>
+        ) : (
+          <p class="job-apply-note">The application form is coming soon. Check back shortly.</p>
+        )}
+      </section>
+    </div>
+  </article>
+</BaseLayout>

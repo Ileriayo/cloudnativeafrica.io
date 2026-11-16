@@ -1,0 +1,20 @@
+---
+interface Props {
+  workplace: 'Remote' | 'On-site' | 'Hybrid';
+  employmentType: string;
+  location: string;
+  payRange: string;
+  tags?: string[];
+}
+
+const { workplace, employmentType, location, payRange, tags = [] } = Astro.props;
+const workplaceClass = `job-tag job-tag-${workplace.toLowerCase()}`;
+---
+
+<ul class="job-tags" aria-label="Job details">
+  <li class={workplaceClass}>{workplace}</li>
+  <li class="job-tag">{employmentType}</li>
+  <li class="job-tag">{location}</li>
+  <li class="job-tag job-tag-pay">{payRange}</li>
+  {tags.map((tag) => <li class="job-tag job-tag-skill">{tag}</li>)}
+</ul>
