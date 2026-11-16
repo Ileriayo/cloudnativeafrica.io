@@ -1,24 +1,17 @@
----
-# HOW TO POST A JOB
-# Copy this file into the same folder with a new name, e.g.
-# platform-engineer-acme.md. The file name becomes the URL:
-# /jobs/platform-engineer-acme/
-# Files starting with "_" (like this one) are never published.
-
 title: Cloud DevOps Mentor
 company: Darey.io
-# companyUrl: https://example.com # optional
+companyUrl: https://darey.io
 location: Lagos, Nigeria
-workplace: Remote # Remote | On-site | Hybrid
-employmentType: Contract # Full-time | Part-time | Contract | Internship
-payRange: "800K - 1.5M (NGN) / month"
+workplace: Remote
+employmentType: Contract
+payRange: "800K - 1.5M (NGN)"
 tags: [Cloud, DevOps]
 summary: ""
 posted: 2026-11-16
-closes: 2026-11-30 # optional
-status: open # set to "closed" to stop taking applications
-draft: false # set to true to hide the job from the site
-applicationForm: https://forms.gle/gjUWeAXbZK7uLimo6 # optional, overrides the default form
+closes: 2026-11-30
+status: open
+draft: false
+applicationForm: https://forms.gle/gjUWeAXbZK7uLimo6
 ---
 
 ## About the role
